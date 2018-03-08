@@ -9,6 +9,7 @@ my $builder = Module::Build->new(
     dist_author         => q{Richard J. de Borja <richard.deborja@uhnresearch.ca>},
     dist_version_from   => 'lib/BioCore/Plink.pm',
     release_status      => 'stable',
+    dist_abstract       => 'Perl package for the PLINK suite of programs',
     configure_requires => {
         'Module::Build' => '0',
     },
@@ -16,8 +17,11 @@ my $builder = Module::Build->new(
         'Test::More' => '0',
     },
     requires => {
-        #'ABC'              => '1.6',
-        #'Foo::Bar::Module' => '5.0401',
+        'Moose'             => '2.10',
+        'Moose::Role'       => '2.10',
+        'Data::Dumper'      => '2.161',
+        'MooseX::Params::Validate'  => '0.21',
+        'MooseX::ClassCompositor'   => '0.008'
     },
     add_to_cleanup     => [ 'BioCore-Plink-*' ],
 );
