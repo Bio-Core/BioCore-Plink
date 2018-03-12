@@ -97,7 +97,7 @@ L<http://search.cpan.org/dist/test-test/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2017 Richard J. de Borja.
+Copyright 2018 Richard J. de Borja.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the the Artistic License (2.0). You may obtain a
