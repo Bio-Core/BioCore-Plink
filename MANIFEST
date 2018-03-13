@@ -5,7 +5,7 @@ Changes
 lib/BioCore/Plink.pm
 lib/BioCore/Plink/Extract.pm
 MANIFEST			This list of files
-README
+README.md
 t/01-extract.t
 t/02-get_rsids_from_map.t
 t/03-extract_rsids_from_ped.t
@@ -16,3 +16,5 @@ t/example/file.ped
 t/example/file.rsid
 t/example/file.txt
 t/example/non.rsid
+META.yml
+META.json

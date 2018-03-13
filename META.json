@@ -1,0 +1,53 @@
+{
+   "abstract" : "Perl package for the PLINK suite of programs",
+   "author" : [
+      "Richard J. de Borja <richard.deborja@uhnresearch.ca>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.143240",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "BioCore-Plink",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Data::Dumper" : "2.161",
+            "Moose" : "2.10",
+            "Moose::Role" : "2.10",
+            "MooseX::ClassCompositor" : "0.008",
+            "MooseX::Params::Validate" : "0.21"
+         }
+      }
+   },
+   "provides" : {
+      "BioCore::Plink" : {
+         "file" : "lib/BioCore/Plink.pm",
+         "version" : "0.01"
+      },
+      "BioCore::Plink::Extract" : {
+         "file" : "lib/BioCore/Plink/Extract.pm"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://opensource.org/licenses/artistic-license-2.0.php"
+      ]
+   },
+   "version" : "0.01"
+}

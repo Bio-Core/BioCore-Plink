@@ -1,8 +1,8 @@
-BioCore-Plink
+# BioCore-Plink
 
 A Perl package for extracting data from PED and MAP files.
 
-INSTALLATION
+## INSTALLATION
 
 To install this module, run the following commands:
 
@@ -11,7 +11,7 @@ To install this module, run the following commands:
 	./Build test
 	./Build install
 
-SUPPORT AND DOCUMENTATION
+## SUPPORT AND DOCUMENTATION
 
 After installing, you can find documentation for this module with the
 perldoc command.
@@ -33,7 +33,7 @@ You can also look for information at:
         http://search.cpan.org/dist/BioCore-Plink/
 
 
-LICENSE AND COPYRIGHT
+## LICENSE AND COPYRIGHT
 
 Copyright (C) 2018 Richard J. de Borja
 
