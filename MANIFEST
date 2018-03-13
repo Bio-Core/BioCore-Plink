@@ -1,14 +1,19 @@
+.travis.yml
 bin/get_rsid_data.pl
 Build.PL
 Changes
 lib/BioCore/Plink.pm
 lib/BioCore/Plink/Extract.pm
-lib/BioCore/Plink/Run.pm
 MANIFEST			This list of files
 README
 t/00-load.t
 t/01-extract.t
 t/02-get_rsids_from_map.t
+t/03-extract_rsids_from_ped.t
+t/04-extracted_ped_header.t
+t/example/expected_output.ped
 t/example/file.map
+t/example/file.ped
 t/example/file.rsid
 t/example/file.txt
+t/example/non.rsid
