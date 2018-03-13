@@ -1,7 +1,7 @@
 language: perl
 perl:
   - "5.18"
-install:
+before_install:
   - cpanm --quiet --installdeps --notest Moose
   - cpanm --quiet --installdeps --notest Moose::Role
   - cpanm --quiet --installdeps --notest Data::Dumper
