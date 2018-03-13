@@ -2,7 +2,18 @@ language: perl
 perl:
   - "5.18"
 install:
-  - cpan-install --deps
+  - cpanm --quiet --installdeps --notest Moose
+  - cpanm --quiet --installdeps --notest Moose::Role
+  - cpanm --quiet --installdeps --notest Data::Dumper
+  - cpanm --quiet --installdeps --notest MooseX::Params::Validate
+  - cpanm --quiet --installdeps --notest MooseX::ClassCompositor
+  - cpanm --quiet --installdeps --notest Test::More
+  - cpanm --quiet --installdeps --notest Test::Moose
+  - cpanm --quiet --installdeps --notest Test::Exception
+  - cpanm --quiet --installdeps --notest Test::Files
+  - cpanm --quiet --installdeps --notest FindBin
+  - cpanm --quiet --installdeps --notest File::Temp
+  - cpanm --quiet --installdeps --notest Data::Dumper
 script:
   - perl Build.PL
   - ./Build test
