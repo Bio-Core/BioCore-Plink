@@ -1,4 +1,4 @@
-use Test::More tests => 1;
+use Test::More tests => 2;
 use Test::Moose;
 use Test::Exception;
 use MooseX::ClassCompositor;
@@ -21,26 +21,22 @@ my $plink;
 my $ped_file = "$Bin/example/file.ped";
 my $map_file = "$Bin/example/file.map";
 my $rsid_file = "$Bin/example/file.rsid";
+my $output_file = "test_output.ped";
 lives_ok
     {
         $plink = $test_class->new();
         }
     'Class instantiated';
-my $rsids = $plink->get_rsids_from_file(
-    file => $rsid_file
+    
+my $ped_subset_data = $plink->extract_rsids_from_ped_data(
+    ped_file => "$Bin/example/file.ped",
+    rsid_file => "$Bin/example/file.rsid",
+    map_file => "$Bin/example/file.map"
     );
-my $ped_subset_data = $plink->get_rsid_and_index_from_map_file(
-    rsids => $rsids,
-    map => $map_file
+$plink->write_ped_file(
+    data => $ped_subset_data,
+    file => $output_file
     );
-# my $ped_subset_data = $plink->extract_rsids_from_ped_data(
-#     ped_file => "$Bin/example/file.ped",
-#     rsid_file => "$Bin/example/file.rsid",
-#     map_file => "$Bin/example/file.map"
-#     );
-print Dumper($ped_subset_data);
-
-my $ped_sorted_subset_data = $plink->sort_rsid_hash_by_value(
-    map => $ped_subset_data
-    );
-print Dumper($ped_sorted_subset_data);
+my $expected_file = "$Bin/example/expected_output.ped";
+compare_ok($output_file, $expected_file, "Extracted PED matches expected");
+unlink($output_file);
