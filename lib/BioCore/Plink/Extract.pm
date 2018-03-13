@@ -6,6 +6,7 @@ use strict;
 use warnings FATAL => 'all';
 use namespace::autoclean;
 use autodie;
+use Data::Dumper;
 
 =head1 NAME
 
@@ -19,7 +20,6 @@ A Perl Moose role for extracting RS (SNP) IDs from a PED file.
 
 =head1 SUBROUTINES/METHODS
 
-# get RSIDs from text file
 =head2 $obj->get_rsids_from_file()
 
 Get a list of RS IDs from a text file
@@ -114,13 +114,201 @@ sub get_rsid_and_index_from_map_file {
     return(\%_rsids_and_index);
     }
 
+=head2 $obj->sort_rsid_hash_by_value()
+
+A method for sorting the RSID hash by the RSID value (i.e. index).
+
+=head3 Arguments:
+
+=over 2
+
+=item * map: a hash reference containing the RSID hash map data
+
+=back
+
+=cut
+
+sub sort_rsid_hash_by_value {
+    my $self = shift;
+    my %args = validated_hash(
+        \@_,
+        map => {
+            isa         => 'HashRef',
+            required    => 1
+            }
+        );
+
+    my @keys = sort { $args{'map'}->{$a} <=> $args{'map'}->{$b} } keys(%{ $args{'map'} });
+    my @vals = @{$args{'map'}}{@keys};
+
+    my %_return_values = (
+        rsids => \@keys,
+        index => \@vals
+        );
+    return(\%_return_values);
+    }
+
 # get rsid column of data from .ped file
+=head2 $obj->extract_rsids_from_ped_data()
 
+Extract PED data and limit to a subset of rsids based on a list
+of rsids.
 
-# append the rsid column of data from the .ped file and
-# construct a matrix containing the 310 RSID numbers as columns and
-# 433k patients as rows
+=head3 Arguments:
 
+=over 2
+
+=item * ped: .ped file to extract RSID data from
+
+=item * rsids: a file containing RSIDs to subset
+
+=item * map: map file containing the PED data mappings
+
+=back
+
+=cut
+
+sub extract_rsids_from_ped_data {
+    my $self = shift;
+    my %args = validated_hash(
+        \@_,
+        ped_file => {
+            isa         => 'Str',
+            required    => 1
+            },
+        rsid_file => {
+            isa         => 'Str',
+            required    => 1
+            },
+        map_file => {
+            isa         => 'Str',
+            required    => 1
+            },
+        ped_offset => {
+            isa         => 'Int',
+            required    => 0,
+            default     => 5
+            }
+        );
+
+    my @_sample_subset_array;
+    my @_subset_array;
+    my $first_meta = 0;
+    my $last_meta = $args{'ped_offset'};
+    my $rsids = $self->get_rsids_from_file(
+        file => $args{'rsid_file'}
+        );
+
+    # get the rsid name and corresponding index from the
+    # map file, we will use the index value to offset
+    # the columns in the PED data array
+    my $map_data = $self->get_rsid_and_index_from_map_file(
+        rsids => $rsids,
+        map => $args{'map_file'}
+        );
+    my $sorted_map_data = $self->sort_rsid_hash_by_value(
+        map => $map_data
+        );
+    my $_tmp_header = $self->create_ped_subset_header(
+        rsids => $sorted_map_data->{'rsids'}
+        );
+    push(@_subset_array, $_tmp_header);
+    open(my $pedfh, '<', $args{'ped_file'});
+    my @_tmp_array;
+    while(my $line = <$pedfh>) {
+        # cleanup leading and trailing white space
+        $line =~ s/^\s+//;
+        $line =~ s/\s+$//;
+
+        # store the PED data line at a time
+        my @_ped_array = split("\t", $line);
+        @_tmp_array = @_ped_array[$first_meta..$last_meta];
+        foreach my $_rsid_index (@{ $sorted_map_data->{'index'} }) {
+            push(@_tmp_array, $_ped_array[$last_meta + $_rsid_index]);
+            }
+        push(@_subset_array, join("\t", @_tmp_array));
+        }
+
+    return(\@_subset_array);
+    }
+
+=head2 $obj->create_ped_subset_header()
+
+Return the header for the subset of PED data limited by a list
+of RSIDs.
+
+=head3 Arguments:
+
+=over 2
+
+=item * rsids: an array reference containing a list of RSIDs to subset
+
+=back
+
+=cut
+
+sub create_ped_subset_header {
+    my $self = shift;
+    my %args = validated_hash(
+        \@_,
+        rsids => {
+            isa         => 'ArrayRef',
+            required    => 1
+            }
+        );
+    my @_header_array = (
+        "family_id",
+        "sample_id",
+        "paternal_id",
+        "maternal_id",
+        "sex",
+        "affection"
+        );
+    push(@_header_array, @{ $args{'rsids'} });
+    my $header = join("\t", @_header_array);
+
+    return($header);
+    }
+
+=head2 $obj->write_ped_file()
+
+Write the PED array data to a file.
+
+=head3 Arguments:
+
+=over 2
+
+=item * data: array reference containing PED data to write (required)
+
+=item * file: name of file to write data to (default: output.ped)
+
+=back
+
+=cut
+
+sub write_ped_file {
+    my $self = shift;
+    my %args = validated_hash(
+        \@_,
+        data => {
+            isa         => "ArrayRef",
+            required    => 1
+            },
+        file => {
+            isa         => "Str",
+            required    => 0,
+            default     => "output.ped"
+            }
+        );
+
+    open(my $ofh, '>', $args{'file'});
+    foreach my $data_line (@{ $args{'data'} }) {
+        print {$ofh} "$data_line\n";
+        }
+    close($ofh);
+
+    return 0;
+    }
 
 =head1 AUTHOR
 
@@ -166,7 +354,7 @@ L<http://search.cpan.org/dist/test-test/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2017 Richard J. de Borja.
+Copyright 2018 Richard J. de Borja.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the the Artistic License (2.0). You may obtain a
