@@ -1,6 +1,8 @@
 language: perl
 perl:
   - "5.18"
+install:
+  - cpan-install --deps
 script:
   - perl Build.PL
   - ./Build test
