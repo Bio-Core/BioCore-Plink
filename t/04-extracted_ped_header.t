@@ -1,4 +1,4 @@
-use Test::More tests => 1;
+use Test::More tests => 2;
 use Test::Moose;
 use Test::Exception;
 use MooseX::ClassCompositor;
@@ -33,8 +33,22 @@ my $map_data = $plink->get_rsid_and_index_from_map_file(
     rsids => $rsids,
     map => $map_file
     );
-print Dumper($map_data);
 $ped_header = $plink->create_ped_subset_header(
     rsids => $rsids
     );
-print $ped_header, "\n";
+my $expected_header = join("\t",
+    "family_id",
+    "sample_id",
+    "paternal_id",
+    "maternal_id",
+    "sex",
+    "affection",
+    "rs11511647",
+    "rs3883674",
+    "rs12218882",
+    "rs10904045",
+    "rs11252127",
+    "rs12775203",
+    "rs12255619"
+    );
+is($ped_header, $expected_header, "Header string matches expected");
