@@ -22,6 +22,7 @@ our %opts = (
     ped => undef,
     map => undef,
     rsids => undef,
+    output => "output.ped"
     );
 
 ### MAIN CALLER ###################################################################################
@@ -46,7 +47,8 @@ sub main {
         "man",
         "ped|p=s",
         "map|m=s",
-        "rsids|r=s"
+        "rsids|r=s",
+        "output|o=s"
         ) or pod2usage(64);
     
     pod2usage(1) if $opts{'help'};
@@ -60,16 +62,15 @@ sub main {
         }
 
     my $plink = BioCore::Plink->new();
-    my $rsids = $plink->get_rsids_from_file(
-        file => $opts{'rsids'}
+    my $ped_subset_data = $plink->extract_rsids_from_ped_data(
+        ped_file => $opts{'ped'},
+        map_file => $opts{'map'},
+        rsid_file => $opts{'rsids'}
         );
-    my $map_data = $plink->get_rsid_and_index_from_map_file(
-        rsids => $rsids,
-        map => $opts{'map'}
+    $plink->write_ped_file(
+        data => $ped_subset_data,
+        file => $opts{'output'}
         );
-    foreach my $rsid (keys %{ $map_data }) {
-        print $rsid, "\t", $map_data->{$rsid}, "\n";
-        }
 
     return 0;
     }
@@ -90,6 +91,7 @@ B<get_rsid_data.pl> [options] [file ...]
     --ped           PED file generated from PLINK (required)
     --map           MAP file generated from PLINK (requried)
     --rsids         a file containing rows of RSIDs of interest (required)
+    --output        output filename (default: output.ped)
 
 =head1 OPTIONS
 
@@ -116,6 +118,10 @@ A MAP file generated from PLINK.
 A file containing a list of RSIDs with each RSID as a single entry
 per row.
 
+=item B<--output>
+
+Name of output file to write data to (default: output.ped)
+
 =back
 
 =head1 DESCRIPTION
@@ -124,7 +130,7 @@ B<get_rsid_data.pl> Get genotype data from Plink output using a list of RSIDs.
 
 =head1 EXAMPLE
 
-get_rsid_data.pl
+get_rsid_data.pl --ped file.ped --map file.map --rsids file.rsid --output out.ped
 
 =head1 AUTHOR
 
