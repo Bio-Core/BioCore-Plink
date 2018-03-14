@@ -1,4 +1,7 @@
 # BioCore-Plink
+===
+
+[![Build Status](https://travis-ci.org/Bio-Core/BioCore-Plink.svg?branch=master)](https://travis-ci.org/Bio-Core/BioCore-Plink)
 
 A Perl package for extracting data from PED and MAP files.
 
