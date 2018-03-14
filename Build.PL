@@ -15,13 +15,17 @@ my $builder = Module::Build->new(
     },
     build_requires => {
         'Test::More' => '0',
+        'Test::Files' => '0',
+        'Test::Moose' => '0',
+        'Test::Exception' => '0',
+        'Data::Dumper' => '0',
+        'MooseX::ClassCompositor' => '0.008'
     },
     requires => {
         'Moose'             => '2.10',
         'Moose::Role'       => '2.10',
         'Data::Dumper'      => '2.161',
-        'MooseX::Params::Validate'  => '0.21',
-        'MooseX::ClassCompositor'   => '0.008'
+        'MooseX::Params::Validate'  => '0.21'
     },
     add_to_cleanup     => [ 'BioCore-Plink-*' ],
 );
