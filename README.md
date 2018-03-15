@@ -1,5 +1,4 @@
 # BioCore-Plink
-===
 
 [![Build Status](https://travis-ci.org/Bio-Core/BioCore-Plink.svg?branch=master)](https://travis-ci.org/Bio-Core/BioCore-Plink)
 
@@ -37,14 +36,14 @@ You can also look for information at:
 
 
 ## LICENSE AND COPYRIGHT
-
+```
 Copyright (C) 2018 Richard J. de Borja
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the the Artistic License (2.0). You may obtain a
 copy of the full license at:
 
-L<http://www.perlfoundation.org/artistic_license_2_0>
+<http://www.perlfoundation.org/artistic_license_2_0>
 
 Any use, modification, and distribution of the Standard or Modified
 Versions is governed by this Artistic License. By using, modifying or
@@ -75,4 +74,4 @@ YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR
 CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
 CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+```
