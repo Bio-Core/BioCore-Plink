@@ -13,8 +13,9 @@ use strict;
 use Carp;
 use Getopt::Long;
 use Pod::Usage;
+use File::Basename;
 use BioCore::Plink;
-use Data::Dumper;
+
 
 ### COMMAND LINE DEFAULT ARGUMENTS ################################################################
 # list of arguments and default values go here as hash key/value pairs
@@ -67,10 +68,15 @@ sub main {
         map_file => $opts{'map'},
         rsid_file => $opts{'rsids'}
         );
-    $plink->write_ped_file(
-        data => $ped_subset_data,
-        file => $opts{'output'}
-        );
+    if ($ped_subset_data == 42) {
+        my $ped_file = File::Basename::basename($opts{'ped'});
+        print("No RSIDs matched in $ped_file...\n");
+    } else {
+        $plink->write_ped_file(
+            data => $ped_subset_data,
+            file => $opts{'output'}
+            );
+        }
 
     return 0;
     }
