@@ -3,7 +3,6 @@ use Moose;
 use MooseX::Params::Validate;
 
 with 'BioCore::Plink::Extract';
-with 'BioCore::Plink::Run';
 
 use strict;
 use warnings FATAL => 'all';
