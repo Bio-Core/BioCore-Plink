@@ -209,6 +209,10 @@ sub extract_rsids_from_ped_data {
     my $sorted_map_data = $self->sort_rsid_hash_by_value(
         map => $map_data
         );
+    # check if no matched RSIDs in the data and return 42
+    if (scalar(@{ $sorted_map_data->{'rsids'} }) == 0) {
+        return 42;
+    }
     my $_tmp_header = $self->create_ped_subset_header(
         rsids => $sorted_map_data->{'rsids'}
         );
