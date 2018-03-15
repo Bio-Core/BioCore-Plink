@@ -1,4 +1,4 @@
-use Test::More tests => 2;
+use Test::More tests => 3;
 use Test::Moose;
 use Test::Exception;
 use MooseX::ClassCompositor;
@@ -29,9 +29,9 @@ lives_ok
     'Class instantiated';
     
 my $ped_subset_data = $plink->extract_rsids_from_ped_data(
-    ped_file => "$Bin/example/file.ped",
-    rsid_file => "$Bin/example/file.rsid",
-    map_file => "$Bin/example/file.map"
+    ped_file => $ped_file,
+    rsid_file => $rsid_file,
+    map_file => $map_file
     );
 $plink->write_ped_file(
     data => $ped_subset_data,
@@ -40,3 +40,12 @@ $plink->write_ped_file(
 my $expected_file = "$Bin/example/expected_output.ped";
 compare_ok($output_file, $expected_file, "Extracted PED matches expected");
 unlink($output_file);
+
+# check for early exit when no RSIDs match
+$rsid_file = "$Bin/example/non.rsid";
+$ped_subset_data = $plink->extract_rsids_from_ped_data(
+    ped_file => $ped_file,
+    rsid_file => $rsid_file,
+    map_file => $map_file
+    );
+is($ped_subset_data, 42, "No matching RSIDs found");
