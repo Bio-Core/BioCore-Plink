@@ -24,7 +24,7 @@ my $builder = Module::Build->new(
     requires => {
         'Moose'             => '2.10',
         'Moose::Role'       => '2.10',
-        'Data::Dumper'      => '2.161',
+        'Data::Dumper'      => '2.140',
         'MooseX::Params::Validate'  => '0.21'
     },
     add_to_cleanup     => [ 'BioCore-Plink-*' ],
